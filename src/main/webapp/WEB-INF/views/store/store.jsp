@@ -811,7 +811,7 @@ $(document).on('click', '.no-style-link', function() {
     }
 })
 
-/
+
 </script>
 
 </html>
