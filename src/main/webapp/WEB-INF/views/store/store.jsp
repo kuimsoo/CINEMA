@@ -810,8 +810,8 @@ $(document).on('click', '.no-style-link', function() {
         window.location.href = '/cart'; 
     }
 })
-///
 
+/
 </script>
 
 </html>
