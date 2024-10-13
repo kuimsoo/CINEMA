@@ -5,6 +5,7 @@
 <!-- JSTL Functions 태그 추가 -->
 <%@ page import="com.cinema.mypage.CustomerDTO"%>
 
+
 <%
 // 세션에서 cusrDTO 객체 가져오기
 CustomerDTO customer = (CustomerDTO) session.getAttribute("cusDTO");
@@ -18,14 +19,14 @@ String customer_id = (String) session.getAttribute("uid");
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<script src="https://kit.fontawesome.com/3a115195d8.js"
-	crossorigin="anonymous"></script>
-<link rel="stylesheet" href="/mypage_css/mypage.css">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Page</title>
-<style>
-</style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/mypage_css/mypage.css">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Page</title>
+    <style>
+    </style>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/header/header.jsp"%>
@@ -275,6 +276,7 @@ String customer_id = (String) session.getAttribute("uid");
 </body>
 
 <script src="https://code.jquery.com/jquery-latest.js"></script>
+
 <script>
 	$(document).on("click", "#gochart", function() {
 		let movieid = $(this).data("id");

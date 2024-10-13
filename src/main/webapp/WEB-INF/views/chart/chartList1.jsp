@@ -465,22 +465,30 @@ color:black;
             
             if($('#updetext').val()===""){
             	alert('내용을 입력해주세요')
-            }else{
-                $.ajax({
-                    url: '/updatereview',
-                    type: 'post',
-                    data: {id:updeId, content: $('#updetext').val(), rate: $("[name='rate']").val()},
-                    dataType: 'text',
-                    success: function(data) {
-                        console.log(data);
-                        loadreview();
-                        AverageRate();
-                    }
-                });
+            }else {
+                if (confirm("리뷰를 업데이트 하시겠습니까?")) {
+                    $.ajax({
+                        url: '/updatereview',
+                        type: 'post',
+                        data: {id: updeId, content: $('#updetext').val(), rate: $("[name='rate']").val()},
+                        dataType: 'text',
+                        success: function(data) {
+                            console.log(data);
+                            alert("수정이 완료되었습니다.")
+                            loadreview();
+                            AverageRate();
+                        }
+                    });
+                } else {
+                   
+                }
             }
             })
             .on('click', '#deletecomment', function() { //리뷰삭제
             	let updeId=$(this).data('review-id');
+            
+           if (confirm("정말로 삭제하시겠습니까?")) {
+            
                 $.ajax({
                     url: '/deletereview',
                     type: 'post',
@@ -488,11 +496,17 @@ color:black;
                     dataType: 'text',
                     success: function(data) {
                         console.log(data);
+                        alert("삭제가 완료되었습니다.")
                         location.reload();
                         loadreview();
                         AverageRate();
                     }
+                
                 });
+           }else{
+      
+           }    
+                
             });
         $(document).on('click', '.reviewupdete', function() {
             let reviewId = $(this).siblings('div').find('#reviewWriter').attr('value');
@@ -529,6 +543,7 @@ color:black;
             	}
             });
         }
+        
         function loadreview(page = 1) {
         	console.log($('#hmid').val());
         	console.log(${sessionScope.dataId});

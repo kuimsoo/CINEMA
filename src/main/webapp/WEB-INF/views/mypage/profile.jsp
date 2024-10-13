@@ -9,8 +9,8 @@ CustomerDTO customer = (CustomerDTO) session.getAttribute("cusDTO");
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<script src="https://kit.fontawesome.com/3a115195d8.js"
-	crossorigin="anonymous"></script>
+<!-- <script src="https://kit.fontawesome.com/3a115195d8.js"
+	crossorigin="anonymous"></script> -->
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <link rel="stylesheet" href="/mypage_css/mypage.css">

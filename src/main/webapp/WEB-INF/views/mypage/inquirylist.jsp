@@ -11,14 +11,14 @@ CustomerDTO customer = (CustomerDTO) session.getAttribute("cusDTO");
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<script src="https://kit.fontawesome.com/3a115195d8.js"
-	crossorigin="anonymous"></script>
-<link rel="stylesheet" href="/mypage_css/mypage.css">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>1:1 문의 게시판</title>
-<style>
-</style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/mypage_css/mypage.css">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1:1문의 게시판</title>
+    <style>
+    </style>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/header/header.jsp"%>

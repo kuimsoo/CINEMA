@@ -28,6 +28,7 @@ public class HomepageController {
 		s.setAttribute("Nick", Nickname);
 		s.setAttribute("id", id);
 		System.out.println(id);
+		System.out.println("Nick: " + s.getAttribute("Nick")); // 저장된 Nick 값 출력
 
 		if (uid == null || uid.equals("")) {
 			linkstr = "<li><a href='/login'>로그인</a></li>" + "<li><a href='/signup'>회원가입</a></li>";

@@ -113,7 +113,11 @@
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <script>
 $(document).on("click",".btnclose",function(){
+
+
 	window.close();
+    window.opener.location.href = '/reservation';
+	
 })
 
 $(document).ready(function() {

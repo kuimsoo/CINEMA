@@ -9,15 +9,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>스토어 결제내역</title>
-<script src="https://kit.fontawesome.com/3a115195d8.js"
-	crossorigin="anonymous"></script>
-<link rel="stylesheet" href="/mypage_css/mypage.css">
-<style>
-/* 스타일을 여기에 추가하세요 */
-</style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/mypage_css/mypage.css">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스토어 결제내역</title>
+    <style>
+    </style>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/header/header.jsp"%>
