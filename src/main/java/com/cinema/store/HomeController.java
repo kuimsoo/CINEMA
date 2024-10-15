@@ -266,7 +266,7 @@ public class HomeController implements ErrorController {
 		int cust_id = 0; // 기본값 설정
 
 		if (id1 != null && !id1.isEmpty()) {
-			// id1이 null도 아니고 빈 문자열도 아닐 경우 정수로 변환
+			// id1이 null도 아니고 빈 문자열도 아닐 경우 정수로 변환.
 			cust_id = Integer.parseInt(id1);
 		}
 
