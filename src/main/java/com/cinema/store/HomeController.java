@@ -236,7 +236,7 @@ public class HomeController implements ErrorController {
 		if (uid != null) {
 			model.addAttribute("uid", uid);
 		} else {
-			model.addAttribute("uid", ""); // 또는 다른 기본값
+			model.addAttribute("uid", ""); // 또는 다른 기본값.
 		}
 
 		model.addAttribute("arStore", arStore);
