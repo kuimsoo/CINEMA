@@ -362,6 +362,7 @@ $(document)
 			$.post('/newsin',{newstitle:newstitle,newscontent:newscontent,newskat:newskat},
 				function(data){
 					shownews();
+					alert("공지등록이 완료되었습니다.")
 			})
 	}
  
@@ -584,6 +585,7 @@ $(document)
 	clear();
 	$.post('/newsup',{newsid:newsid,newstitle:newstitle,newscontent:newscontent,newskat:newskat},function(data){
 		shownews();
+		alert("공지 수정이 되었습니다.")
 	})
 })
 .on('click','#bestbtn',function(){
@@ -615,6 +617,7 @@ $(document)
 	clear();
 	$.post('/roomup',{roomid:roomid,rlevel:rlevel,adprice:adprice,yoprice:yoprice},function(data){
 		rlist();
+		alert('상영관 정보가 수정되었습니다.');
 	})
 })
 .on('click','#abtn',function(){
@@ -627,6 +630,7 @@ $(document)
 		
 		$.post('/inquiryup',{answer:answer,anid:anid},function(data){
 			showinquiry();
+			alert("답변이 완료되었습니다.")
 		})
 	}
 })

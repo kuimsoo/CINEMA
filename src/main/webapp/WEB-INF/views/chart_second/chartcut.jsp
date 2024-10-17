@@ -40,6 +40,7 @@
 	<div class="bot">
 	    <div class="cut-section">
 	        <div class="bottit">스틸컷</div>
+	        
 	        <div id="cutimg"></div>
 	    </div>
 	</div>

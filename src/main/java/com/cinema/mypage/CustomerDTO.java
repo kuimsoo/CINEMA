@@ -19,4 +19,5 @@ public class CustomerDTO {
 	String profileimg;
 	String fulladdress;
 	String post;
+	String linkStr; // 추가
 }

@@ -17,6 +17,8 @@ public class HomepageController {
 	@Autowired
 	public logDAO ldao;
 
+	
+	
 	@GetMapping("/")
 	public String home(HttpServletRequest req, Model model) {
 		String linkstr = "";
@@ -42,6 +44,10 @@ public class HomepageController {
 		s.setAttribute("linkstr", linkstr);
 		return "home/homepage";
 	}
+	
+	
+	
+	
 	
 	@GetMapping("/login")
 	public String login() {

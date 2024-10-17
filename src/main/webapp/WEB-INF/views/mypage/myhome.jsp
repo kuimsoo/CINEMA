@@ -29,6 +29,19 @@ String customer_id = (String) session.getAttribute("uid");
     </style>
 </head>
 <body>
+
+<!--수정추가코드 -->
+
+<%
+    boolean refreshOnce = (session.getAttribute("refreshOnce") != null);
+    session.removeAttribute("refreshOnce");
+%>
+<script>
+    var refreshOnce = <%= refreshOnce %>;
+    console.log(refreshOnce); // 혹은 필요한 다른 코드
+</script>
+
+
 	<%@ include file="/WEB-INF/views/header/header.jsp"%>
 	<!-- 헤더 포함 -->
 
@@ -278,79 +291,90 @@ String customer_id = (String) session.getAttribute("uid");
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 
 <script>
-	$(document).on("click", "#gochart", function() {
-		let movieid = $(this).data("id");
-		window.location.href = "chartList1?id=" + movieid;
-	})
 
-	document.addEventListener('DOMContentLoaded', function() {
-		const modal = document.getElementById('nicknameModal');
-		const editBtn = document.querySelector('.fa-pen');
-		const closeBtn = document.querySelector('.close');
-		const saveNicknameBtn = document.getElementById('saveNicknameBtn');
 
-		// 닉네임 수정 버튼 클릭 시 모달 창 열기
-		editBtn.addEventListener('click', function() {
-			modal.style.display = 'block';
-		});
 
-		// 닫기 버튼 클릭 시 모달 닫기
-		closeBtn.addEventListener('click', function() {
-			modal.style.display = 'none';
-		});
+$(document).ready(function() {
+	
+         if (typeof refreshOnce !== 'undefined' && refreshOnce) {
+             sessionStorage.setItem("refreshOnce", "true");
+             location.reload();
+         } else if (sessionStorage.getItem("refreshOnce")) {
+             sessionStorage.removeItem("refreshOnce");
+         }
+	
+    // 닉네임 모달 관련 코드
+    const modal = document.getElementById('nicknameModal');
+    const editBtn = document.querySelector('.fa-pen');
+    const closeBtn = document.querySelector('.close');
+    const saveNicknameBtn = document.getElementById('saveNicknameBtn');
 
-		// 모달 밖을 클릭하면 닫히게 설정
-		window.addEventListener('click', function(event) {
-			if (event.target == modal) {
-				modal.style.display = 'none';
-			}
-		});
+    // 닉네임 수정 버튼 클릭 시 모달 창 열기
+    editBtn.addEventListener('click', function() {
+        modal.style.display = 'block';
+    });
 
-		// 닉네임 저장 버튼 클릭 시 AJAX 요청
-		saveNicknameBtn.addEventListener('click', function() {
-			const newNickname = document.getElementById('newNickname').value;
-			if (newNickname) {
-				$.ajax({
-					url : '/updateNickname',
-					method : 'POST',
-					data : {
-						nickname : newNickname
-					},
-					success : function(response) {
-						alert(response); // 서버로부터 성공 메시지 받기
-						location.reload(); // 페이지 새로고침해서 닉네임 업데이트 반영
-					},
-					error : function() {
-						alert('닉네임 변경에 실패했습니다.');
-					}
-				});
-				modal.style.display = 'none';
-			} else {
-				alert('새 닉네임을 입력하세요.');
-			}
+    // 닫기 버튼 클릭 시 모달 닫기
+    closeBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
 
-		});
+    // 모달 밖을 클릭하면 닫히게 설정
+    window.addEventListener('click', function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    });
 
-	});
+    // 닉네임 저장 버튼 클릭 시 AJAX 요청
+    saveNicknameBtn.addEventListener('click', function() {
+        const newNickname = document.getElementById('newNickname').value;
+        if (newNickname) {
+            $.ajax({
+                url: '/updateNickname',
+                method: 'POST',
+                data: {
+                    nickname: newNickname
+                },
+                success: function(response) {
+                    alert(response); // 서버로부터 성공 메시지 받기
+                  
+                },
+                error: function() {
+                    alert('닉네임 변경에 실패했습니다.');
+                }
+            });
+            modal.style.display = 'none';
+        } else {
+            alert('새 닉네임을 입력하세요.');
+        }
+    });
 
-	/* 	$(document).ready(function() {
-	 var userId = 1; // 테스트할 사용자 ID, 실제 상황에서는 동적으로 설정
+    // 차트 버튼 클릭 시 페이지 이동
+    $(document).on("click", "#gochart", function() {
+        let movieid = $(this).data("id");
+        window.location.href = "chartList1?id=" + movieid;
+    });
 
-	 $.ajax({
-	 url : "/customerInfo",
-	 method : "POST",
-	 data : {
-	 id : userId
-	 },
-	 success : function(data) {
-	 // 서버에서 받아온 데이터로 프로필 섹션 업데이트
-	 $('#nickname').text(data.nickname + "님");
-	 },
-	 error : function() {
-	 $('#nickname').text("알수없음");
-	 console.log("AJAX Error:", textStatus, errorThrown);
-	 }
-	 });
-	 }); */
+    // 고객 정보 AJAX 요청 (추가할 부분)
+    var userId = 1; // 테스트할 사용자 ID, 실제 상황에서는 동적으로 설정
+    $.ajax({
+        url: "/customerInfo",
+        method: "POST",
+        data: {
+            id: userId
+        },
+        success: function(data) {
+            // 서버에서 받아온 데이터로 프로필 섹션 업데이트
+            $('#nickname').text(data.nickname + "님");
+        },
+        error: function() {
+            $('#nickname').text("알수없음");
+            console.log("AJAX Error:", textStatus, errorThrown);
+        }
+    });
+});
+
+
 </script>
 </html>

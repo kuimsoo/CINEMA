@@ -9,10 +9,10 @@ CustomerDTO customer = (CustomerDTO) session.getAttribute("cusDTO");
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<!-- <script src="https://kit.fontawesome.com/3a115195d8.js"
-	crossorigin="anonymous"></script> -->
+
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link rel="stylesheet" href="/mypage_css/mypage.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -187,8 +187,8 @@ CustomerDTO customer = (CustomerDTO) session.getAttribute("cusDTO");
 									</td>
 								</tr>
 								<tr>
-									<td colspan=2 style='text-align: center'><input
-										id="probtn" type="submit" value="수정">
+									<td colspan=2 style='text-align: center'>						
+										 <input id="updateBtn" type="submit" value="수정">
 										<button id="probtn" onClick="location.href='/myhome'">취소</button>
 									</td>
 								</tr>
@@ -207,9 +207,9 @@ CustomerDTO customer = (CustomerDTO) session.getAttribute("cusDTO");
 </body>
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <script>
-	$(document).ready(
-
-			function() {
+	$(document).ready(function()
+			
+		 			{
 
 				$.ajax({
 					url : "/customerInfo",
@@ -260,12 +260,58 @@ CustomerDTO customer = (CustomerDTO) session.getAttribute("cusDTO");
 												'checked', true);
 									});
 						}
+						
 					},
 					error : function() {
 						$('#nickname').text("알수없음");
 						console.log("AJAX Error:", textStatus, errorThrown);
 					}
 				});
+				$('#updateBtn').on('click', function() {
+				    const updatedData = new FormData();
+				    // 필요한 데이터 수집
+				    updatedData.append('id', $('#id').val());
+				    updatedData.append('uid', $('#uid').val());
+				    updatedData.append('passwd', $('#passwd').val());
+				    updatedData.append('realname', $('#realname').val());
+				    updatedData.append('nickname', $('#inputNickname').val());
+				    updatedData.append('email', $('#email').val());
+				    updatedData.append('address', $('#address').val());
+				    updatedData.append('birthday', $('#birthday').val());
+				    updatedData.append('fulladdress', $('#fulladdress').val());
+				    updatedData.append('post', $('#post').val());
+				    updatedData.append('mobile', $('#mobile').val());
+				    updatedData.append('tellecom', $('input[name="tellecom"]:checked').val());
+				    updatedData.append('favorite', $('input[name="favorite"]:checked').map(function() {
+				        return $(this).val();
+				    }).get().join(','));
+				    const profileImageInput = document.getElementById('profileImageInput');
+				    if (profileImageInput.files.length > 0) {
+				        updatedData.append('profileImage', profileImageInput.files[0]);
+				    }
+
+				    // AJAX 요청
+				    $.ajax({
+				        url: '/profileUpdate',
+				        method: 'POST',
+				        data: updatedData,
+				        processData: false,
+				        contentType: false,
+				        cache: false,
+				        success: function(response) {
+				            if (response && response.newImageUrl) {
+				                // 새 이미지 URL로 업데이트
+				                $('#previewImage').attr('src', response.newImageUrl + '?' + new Date().getTime()); // 캐시 방지를 위해 타임스탬프 추가
+				            }
+				            alert('정보가 업데이트되었습니다.');
+				        },
+				        error: function() {
+				            alert('정보 업데이트에 실패했습니다.');
+				        }
+				    });
+				});
+
+	
 			});
 	$(function() {
 		// 현재 날짜를 ISO 문자열 형식으로 가져오고, 'T'를 기준으로 나눈 후 첫 번째 부분을 선택합니다.
@@ -330,8 +376,9 @@ CustomerDTO customer = (CustomerDTO) session.getAttribute("cusDTO");
 						nickname : newNickname
 					},
 					success : function(response) {
+					
 						alert(response); // 서버로부터 성공 메시지 받기
-						location.reload(); // 페이지 새로고침해서 닉네임 업데이트 반영
+						location.reload(); // 페이지 새로고침
 					},
 					error : function() {
 						alert('닉네임 변경에 실패했습니다.');

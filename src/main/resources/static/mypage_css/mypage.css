@@ -140,6 +140,22 @@ form input {
 	border: none;
 	font-size: 12px;
 }
+#updateBtn { /*프로필 수정 , 취소 버튼*/
+	margin: 20px;
+	width: 100px;
+	padding: 8px;
+	background-color: #3a3d3f;
+	color: white;
+	border-radius: 5px;
+	cursor: pointer;
+	height: 40px;
+	font-weight: bold;
+	transition: background-color 0.3s;
+	border: none;
+	font-size: 12px;
+}
+
+
 
 #probtn:hover {
 	background-color: black; /* 버튼 hover 시 배경색 변경 */

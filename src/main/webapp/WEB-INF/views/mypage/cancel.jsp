@@ -127,6 +127,13 @@ CustomerDTO customer = (CustomerDTO) session.getAttribute("cusDTO");
 			alert('비밀번호가 일치하지 않습니다. 다시 입력해 주세요.');
 			return false;
 		}
+		
+		let confirmation = confirm('정말로 회원 탈퇴를 하시겠습니까?');
+	    if (!confirmation) {
+	        return false; // 사용자가 '취소'를 클릭하면 제출하지 않음
+	    }
+		
+		
 		// 비밀번호가 일치하면 true를 반환하여 폼 제출을 허용
 		return true;
 	}

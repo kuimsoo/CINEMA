@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +11,7 @@
     <header class="header">
     	<h1 class="logo"><a href="/">HIII CINEMA</a></h1>
         <div class="navbar2">
-        	<ul class="nav-links">
+        	<ul class="nav-links" id="navLinks"> <!-- id 추가 -->
             	${sessionScope.linkstr}
                 <li><a href="/myhome">My페이지</a></li>
                 <li><a href="/serviceHome">고객센터</a></li>
