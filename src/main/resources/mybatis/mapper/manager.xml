@@ -82,4 +82,14 @@
 <select id="ssaleslist" resultType="com.cinema.management.SalesDTO">
 	select * from storepay where created like #{param1} order by created desc
 </select>
+
+<insert id="insertactor_image">
+
+	insert into appearance_info set movieid=#{param1},actor=#{param2},image_path=#{param3}
+</insert>
+
+
+
+
+
 </mapper>

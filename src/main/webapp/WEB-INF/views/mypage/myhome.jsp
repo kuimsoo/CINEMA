@@ -338,6 +338,9 @@ $(document).ready(function() {
                 },
                 success: function(response) {
                     alert(response); // 서버로부터 성공 메시지 받기
+                    if (!refreshOnce) {
+                        location.reload();
+                    }
                   
                 },
                 error: function() {

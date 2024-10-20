@@ -294,11 +294,14 @@ public class PageController {
 	            String profileImagePath = "/mypage_image/" + newFilename;
 	            cusDTO.setProfileimg(profileImagePath); // DTO에 새 이미지 경로 설정
 	        }
-	        //	
+
 	        // 고객 정보 업데이트
 	        mdao.updateCusInfo(cusDTO);
-	        // 세션에 리프레시 플래그 설정
+	        
+	        // 세션에 리프레시 플래그 설정 (이미지 업로드 여부와 상관없이)
 	        session.setAttribute("refreshOnce", true);
+	        System.out.println("refreshOnce: " + session.getAttribute("refreshOnce"));
+	        
 	        // 성공 메시지를 설정하고 마이홈 페이지로 리다이렉트
 	        redirectAttributes.addFlashAttribute("message", "수정되었습니다");
 	        return "redirect:/myhome";
@@ -310,6 +313,7 @@ public class PageController {
 	        return "redirect:/profile";
 	    }
 	}
+
 
 	// 회원 탈퇴 페이지
 	@GetMapping("/cancel")

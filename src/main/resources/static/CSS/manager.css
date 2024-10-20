@@ -45,6 +45,7 @@
      overflow-y: auto; 
      border-radius:6px;
 }
+
 .movieinsert4{
 	border:1px solid white;
 	margin:15px;
@@ -217,7 +218,8 @@ td{
 #roomlist tbody td,
 #bestlist tbody td,
 #spaylist tbody td,
-#mpaylist tbody td{
+#mpaylist tbody td,
+#cutlist tbody td{
 	height:40px;
 }
 
@@ -239,7 +241,9 @@ td{
 #roomlist thead td,
 #bestlist thead td,
 #spaylist thead td,
-#mpaylist thead td{
+#mpaylist thead td,
+#cutlist thead td
+{
 	border-bottom:2px solid white;
 	background-color:black;
 }
@@ -261,3 +265,33 @@ input,textarea,select{
 	 background-color: red;
 
 }
+.movieinsert1{
+	border:1px solid white;
+	width:300px;
+	margin:15px;
+	height: 500px;
+	border-radius:6px;
+}
+
+/* 내가 추가한 내용 */
+.cut1{
+	border:1px solid white;
+	width:310px;
+	margin:15px;
+	 height: 400px;
+     overflow-y: auto; 
+     border-radius:6px;
+}
+.cut2{
+	border:1px solid white;
+	width:1200px;
+	margin:15px;
+	 height: 500px;
+     overflow-y: auto; 
+     border-radius:6px;
+     display: flex;
+     justify-content: center;
+}
+
+
+

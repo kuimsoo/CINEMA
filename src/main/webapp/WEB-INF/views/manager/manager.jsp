@@ -16,7 +16,11 @@
 <button id="answerbtn" class="mainbutton">1:1문의</button>
 <button id="newsbtn" class="mainbutton">공지</button>
 <button id="roombtn" class="mainbutton">상영관</button>
+
+<button id="steelcut" class="mainbutton">스틸컷</button>
+
 <button id="salesbtn" class="mainbutton">매출현황</button>
+
 
 <div class="container" id="s">
 	<div class="movieinsert1">
@@ -33,7 +37,7 @@
 				<tr><td>청소년요금</td><td><input type="number" id="yprice" readonly></td></tr>
 				<tr><td>요금타입</td><td><input type="text" id="ptype" readonly></td></tr>
 				<tr><td colspan="2"><input type="button" id="sbtn" value="상영정보추가"></td></tr>
-			</table>
+			</table>		
 	</div>
 	<div class="movieinsert2">
 		<table id="schedules">
@@ -80,6 +84,7 @@
 		</table>
 	</div>
 </div>
+
 <div class="container" id="i">
 	<input type="hidden" id="itemid" readonly>
 		<div class="iteminfo">
@@ -197,6 +202,31 @@
 	</div>
 </div>
 </div>
+
+<div class="container" id="c">
+	<div class="cut1">
+		<h2>영화추가</h2>
+			<table>
+				<tr><td>movieid</td><td><input type="text" id="movieid"></td>
+				<tr><td>배우</td><td><input type="text" id="actor"></td></tr>
+				<tr><td>이미지경로</td><td><input type="text" id="actorimage" value="/actor_image/.jpg"></td></tr>
+				<tr><td colspan="2"><input type="button" id="actorbtn" value="이미지추가"></td></tr>
+				<tr><td colspan="2"><h3>배우이미지추가</h3></td></tr>
+				    <tr><td>이미지</td><td><input type="file" id="actorfile" style="width:200px"></td></tr>
+				    <tr><td colspan="2"><input type="button" id="actorimgbtn" value="이미지추가">
+			</table>
+	</div>
+	<div class="cut2">
+		<table id="cutlist">
+			<caption><h3>배우이미지</h3></caption>
+				<thead>
+					<tr><td>영화제목</td><td>영화id</td><td>배우</td><td>이미지경로</td><td>삭제</td></tr>
+				</thead>
+				<tbody></tbody>
+		</table>
+	</div>
+</div>
+
 <div class="container" id="l">
 	<div class="sales">
 		<table id="mpaylist" style="margin:auto;">
@@ -305,6 +335,32 @@ $(document)
 	    });
 	}
 })
+
+
+//내가 코드 추가한 부분
+.on('click','#actorimgbtn',function(){
+	if($('#actorfile').val()==''){
+		alert("업로드할 이미지를 선택해주세요")
+	}else{
+		let formData = new FormData();
+	    formData.append('actorfile', $('#actorfile')[0].files[0]); // Add the file
+	    clear();
+	    $.ajax({
+	        url: '/actorimage',
+	        type: 'POST',
+	        data: formData,
+	        contentType: false,
+	        processData: false,
+	        success: function(data) {
+	        	 alert("이미지 업로드가 완료되었습니다")
+	        }
+	    });
+	}
+})
+//
+
+
+
 .on('click','#ibtn',function(){
 	if($('#itemname').val()=='' || $('#itemprice').val()=='' || $('#disprice').val()=='' || $('#conposition').val()==''
 		|| $('#origin').val()==''|| $('#itemtype').val()==''){
@@ -636,37 +692,80 @@ $(document)
 })
 .on('click','#schebtn',function(){
 	$('#s').addClass('visible');
-	$('#m,#i,#a,#n,#r,#l').removeClass('visible').addClass('container');
+	$('#m,#i,#a,#n,#r,#l,#c').removeClass('visible').addClass('container');
 	clear();
 })
 .on('click','#moviebtn',function(){
 	$('#m').addClass('visible');
-	$('#s,#i,#a,#n,#r,#l').removeClass('visible').addClass('container');
+	$('#s,#i,#a,#n,#r,#l,#c').removeClass('visible').addClass('container');
 	clear();
 })
+
 .on('click','#itembtn',function(){
 	$('#i').addClass('visible');
-	$('#m,#s,#a,#n,#r,#l').removeClass('visible').addClass('container');
+	$('#m,#s,#a,#n,#r,#l,#c').removeClass('visible').addClass('container');
 	clear();
 })
 .on('click','#answerbtn',function(){
 	$('#a').addClass('visible');
-	$('#m,#i,#s,#n,#r,#l').removeClass('visible').addClass('container');
+	$('#m,#i,#s,#n,#r,#l,#c').removeClass('visible').addClass('container');
 	clear();
 })
 .on('click','#newsbtn',function(){
 	$('#n').addClass('visible');
-	$('#m,#i,#a,#s,#r,#l').removeClass('visible').addClass('container');
+	$('#m,#i,#a,#s,#r,#l,#c').removeClass('visible').addClass('container');
 	clear();
 })
 .on('click','#roombtn',function(){
 	$('#r').addClass('visible');
-	$('#m,#i,#a,#s,#n,#l').removeClass('visible').addClass('container');
+	$('#m,#i,#a,#s,#n,#l,#c').removeClass('visible').addClass('container');
 	clear();
 })
+
+//내가 추가한 코드.
+.on('click', '#steelcut', function() {
+    $('#c').addClass('visible'); // 스틸컷 컨테이너를 보이게 함
+    $('#m,#i,#a,#r,#n,#l,#s').removeClass('visible').addClass('container'); // 다른 컨테이너 숨김
+    clear(); // 필요하다면 초기화 함수 호출
+})
+
+.on('click', '#actorbtn', function() {
+
+    let movieid = $('#movieid').val();
+    let actor = $('#actor').val();
+    let actor_image = $('#actorimage').val();
+
+    console.log(movieid);
+    console.log(actor);
+    console.log(actor_image);
+
+    if(movieid==''||actor==''||actor_image==''){
+
+    alert("정보를 모두 입력해주세요.")
+    }
+    else{
+    $.ajax({
+        url: "/insertactor_image", 
+        type: 'POST', 
+        data: { 
+            movieid: movieid,
+            actor: actor,
+            actor_image: actor_image
+        },
+        success: function(data) {
+			alert("정보가 등록되었습니다.");
+            console.log(data);
+           
+        }    
+    });
+    }
+})
+
+//
+
 .on('click','#salesbtn',function(){
 	$('#l').addClass('visible');
-	$('#m,#i,#a,#s,#n,#r').removeClass('visible').addClass('container');
+	$('#m,#i,#a,#s,#n,#r,#c').removeClass('visible').addClass('container');
 	clear();
 	showmpay();
 	showspay();

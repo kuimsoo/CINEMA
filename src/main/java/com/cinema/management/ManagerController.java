@@ -206,6 +206,42 @@ public class ManagerController {
         
 		return "manager/manager";
 	}
+	
+	
+//내가 추가한 코드	
+	@PostMapping("/actorimage")
+	@ResponseBody
+	public String actorimage(HttpServletRequest req,Model model) {
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) req;
+		
+		MultipartFile file = multipartRequest.getFile("actorfile");
+	     
+        String uploadDir = "src/main/resources/static/actor_image";
+        File uploadDirectory = new File(Paths.get(uploadDir).toAbsolutePath().normalize().toString());
+        File destinationFile = new File(uploadDirectory, file.getOriginalFilename());
+        try {
+			file.transferTo(destinationFile);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        
+		return "manager/manager";
+	}
+	@PostMapping("insertactor_image")
+	@ResponseBody
+	public String insertactor_image(HttpServletRequest req) {
+		int movieid=Integer.parseInt(req.getParameter("movieid"));
+		String actor=req.getParameter("actor");
+		String actor_image=req.getParameter("actor_image");
+		
+		mmdao.insertactor_image(movieid, actor, actor_image);	
+		
+		return "manager/manager";
+	}
+	
+//	
 	@PostMapping("/showitem")
 	@ResponseBody
 	public String showitem(HttpServletRequest req,Model model) {

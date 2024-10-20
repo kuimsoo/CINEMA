@@ -91,8 +91,8 @@ CustomerDTO customer = (CustomerDTO) session.getAttribute("cusDTO");
 						<h3>회원 정보 수정</h3>
 					</div>
 					<div>
-						<form method=post action='/profileUpdate'
-							enctype="multipart/form-data">
+					<!-- 	<form method=post action='/profileUpdate'
+							enctype="multipart/form-data"> -->
 							<table class="profile-input">
 								<tr>
 									<td></td>
@@ -193,7 +193,7 @@ CustomerDTO customer = (CustomerDTO) session.getAttribute("cusDTO");
 									</td>
 								</tr>
 							</table>
-						</form>
+					<!-- 	</form> -->
 
 					</div>
 
@@ -267,7 +267,9 @@ CustomerDTO customer = (CustomerDTO) session.getAttribute("cusDTO");
 						console.log("AJAX Error:", textStatus, errorThrown);
 					}
 				});
-				$('#updateBtn').on('click', function() {
+				$('#updateBtn').on('click', function(event) {
+
+					event.preventDefault(); // 기본 폼 제출 동작을 막음
 				    const updatedData = new FormData();
 				    // 필요한 데이터 수집
 				    updatedData.append('id', $('#id').val());
@@ -299,11 +301,17 @@ CustomerDTO customer = (CustomerDTO) session.getAttribute("cusDTO");
 				        contentType: false,
 				        cache: false,
 				        success: function(response) {
+				        	console.log(response); // 서버에서 받은 응답을 로그에 출력
 				            if (response && response.newImageUrl) {
 				                // 새 이미지 URL로 업데이트
 				                $('#previewImage').attr('src', response.newImageUrl + '?' + new Date().getTime()); // 캐시 방지를 위해 타임스탬프 추가
 				            }
+				        	
 				            alert('정보가 업데이트되었습니다.');
+				            setTimeout(function() {
+				                window.location.href = '/myhome'; 
+				            }, 1500); 
+				            
 				        },
 				        error: function() {
 				            alert('정보 업데이트에 실패했습니다.');
