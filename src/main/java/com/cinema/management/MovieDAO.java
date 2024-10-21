@@ -30,5 +30,12 @@ public interface MovieDAO {
 	void bestitems(int a, int b);
 	ArrayList<SalesDTO> msaleslist(String a);
 	ArrayList<SalesDTO> ssaleslist(String a);
+	//코드 추가
 	void insertactor_image(int id,String actor,String image_path);
-}
+	ArrayList<AppearanceDTO> selectactor();
+	ArrayList<MovieDTO> selectmoviename(int id);
+	void deleteactorimage(int id);
+	ArrayList<CutimageDTO> selectsteelcut();
+	void insertcutimage(int id,String image_path);
+	void deletecutimage(int id);
+	}	

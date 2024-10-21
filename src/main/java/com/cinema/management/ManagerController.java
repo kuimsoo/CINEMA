@@ -206,42 +206,7 @@ public class ManagerController {
         
 		return "manager/manager";
 	}
-	
-	
-//내가 추가한 코드	
-	@PostMapping("/actorimage")
-	@ResponseBody
-	public String actorimage(HttpServletRequest req,Model model) {
-		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) req;
-		
-		MultipartFile file = multipartRequest.getFile("actorfile");
-	     
-        String uploadDir = "src/main/resources/static/actor_image";
-        File uploadDirectory = new File(Paths.get(uploadDir).toAbsolutePath().normalize().toString());
-        File destinationFile = new File(uploadDirectory, file.getOriginalFilename());
-        try {
-			file.transferTo(destinationFile);
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-        
-		return "manager/manager";
-	}
-	@PostMapping("insertactor_image")
-	@ResponseBody
-	public String insertactor_image(HttpServletRequest req) {
-		int movieid=Integer.parseInt(req.getParameter("movieid"));
-		String actor=req.getParameter("actor");
-		String actor_image=req.getParameter("actor_image");
-		
-		mmdao.insertactor_image(movieid, actor, actor_image);	
-		
-		return "manager/manager";
-	}
-	
-//	
+
 	@PostMapping("/showitem")
 	@ResponseBody
 	public String showitem(HttpServletRequest req,Model model) {
@@ -438,4 +403,142 @@ public class ManagerController {
 		}
 		return Ty.toString();
 	}
+	//내가 추가한 코드	
+		@PostMapping("/actorimage")
+		@ResponseBody
+		public String actorimage(HttpServletRequest req,Model model) {
+			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) req;
+			
+			MultipartFile file = multipartRequest.getFile("actorfile");
+		     
+	        String uploadDir = "src/main/resources/static/actor_image";
+	        File uploadDirectory = new File(Paths.get(uploadDir).toAbsolutePath().normalize().toString());
+	        File destinationFile = new File(uploadDirectory, file.getOriginalFilename());
+	        try {
+				file.transferTo(destinationFile);
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	        
+			return "manager/manager";
+		}
+		@PostMapping("/insertactor_image")
+		@ResponseBody
+		public String insertactor_image(HttpServletRequest req) {
+			int movieid=Integer.parseInt(req.getParameter("movieid"));
+			String actor=req.getParameter("actor");
+			String actor_image=req.getParameter("actor_image");
+			
+			mmdao.insertactor_image(movieid, actor, actor_image);	
+			
+			return "manager/manager";
+		}
+		
+		@PostMapping("/selectactor")
+		@ResponseBody
+		public String selectactor(HttpServletRequest req) {
+			
+			ArrayList<AppearanceDTO> a = mmdao.selectactor();
+			JSONArray Ty = new JSONArray();
+			for(AppearanceDTO Rdto : a) {
+				JSONObject T = new JSONObject();
+				T.put("id",Rdto.getId());
+				T.put("movieid",Rdto.getMovieid());
+				T.put("actor",Rdto.getActor());
+				T.put("image_path",Rdto.getImage_path());
+				Ty.put(T);
+			}
+			return Ty.toString();
+		}
+		@PostMapping("/selectmoviename")
+		@ResponseBody
+		public String selectmoviename(HttpServletRequest req) {
+			int id=Integer.parseInt(req.getParameter("movieid"));
+			
+			ArrayList<MovieDTO> a = mmdao.selectmoviename(id);
+			JSONArray Ty = new JSONArray();
+			for(MovieDTO Rdto : a) {
+				JSONObject T = new JSONObject();
+				T.put("Mname",Rdto.getMname());
+				Ty.put(T);
+			}		
+			return Ty.toString();
+		}
+		@PostMapping("/deleteactorimage")
+		@ResponseBody
+		public String deleteactorimage(HttpServletRequest req) {
+			
+			int id=Integer.parseInt(req.getParameter("id"));
+			
+			mmdao.deleteactorimage(id);
+			
+			return "manager/manager";
+		}
+		@PostMapping("/selectsteelcut")
+		@ResponseBody
+		public String selectsteelcut(HttpServletRequest req) {
+				
+			ArrayList<CutimageDTO> a = mmdao.selectsteelcut();
+			JSONArray Ty = new JSONArray();
+			for(CutimageDTO Rdto : a) {
+				JSONObject T = new JSONObject();
+				T.put("id",Rdto.getId());
+				T.put("movieid",Rdto.getMovieid());
+				T.put("image_path",Rdto.getImage_path());
+				Ty.put(T);
+			}
+			return Ty.toString();
+		}
+		@PostMapping("/insertcutimage")
+		@ResponseBody
+		public String insertcutimage(HttpServletRequest req) {
+			int movieid=Integer.parseInt(req.getParameter("movieid"));
+			String steelcutimage=req.getParameter("steelcutimage");
+			
+			mmdao.insertcutimage(movieid, steelcutimage);	
+			
+			return "manager/manager";
+		}
+		@PostMapping("/steelcutimage")
+		@ResponseBody
+		public String steelcutimage(HttpServletRequest req,Model model) {
+			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) req;
+			
+			MultipartFile file = multipartRequest.getFile("steelcutfile");
+		     
+	        String uploadDir = "src/main/resources/static/cut_image";
+	        File uploadDirectory = new File(Paths.get(uploadDir).toAbsolutePath().normalize().toString());
+	        File destinationFile = new File(uploadDirectory, file.getOriginalFilename());
+	        try {
+				file.transferTo(destinationFile);
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	        
+			return "manager/manager";
+		}
+		@PostMapping("/deletecutimage")
+		@ResponseBody
+		public String deletecutimage(HttpServletRequest req) {
+			
+			int id=Integer.parseInt(req.getParameter("id"));
+			
+			mmdao.deletecutimage(id);
+			
+			return "manager/manager";
+		}
+		
+				
+	//	
+	
+	
+	
+	
+	
+	
+	
 }

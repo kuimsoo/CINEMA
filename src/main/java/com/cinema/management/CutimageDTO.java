@@ -3,10 +3,9 @@ package com.cinema.management;
 import lombok.Data;
 
 @Data
-public class appearanceDTO {
-	
+public class CutimageDTO {
+	int id;
 	int movieid;
-	String actor;
 	String image_path;
-
+	
 }

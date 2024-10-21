@@ -83,13 +83,28 @@
 	select * from storepay where created like #{param1} order by created desc
 </select>
 
+<!--  내가 코드 추가함. -->
 <insert id="insertactor_image">
-
 	insert into appearance_info set movieid=#{param1},actor=#{param2},image_path=#{param3}
 </insert>
-
-
-
+<select id="selectactor" resultType="com.cinema.management.AppearanceDTO">
+	select id,movieid,actor,image_path from appearance_info
+</select>
+<select id="selectmoviename" resultType="com.cinema.management.MovieDTO">
+	select mname from movie where id=#{param1}
+</select>
+<delete id="deleteactorimage">
+	delete from appearance_info where id=#{param1}
+</delete>
+<select id="selectsteelcut" resultType="com.cinema.management.CutimageDTO">
+	select id,movieid,image_path from cutimage
+</select>
+<insert id="insertcutimage">
+	insert into cutimage set movieid=#{param1},image_path=#{param2}
+</insert>
+<delete id="deletecutimage">
+	delete from cutimage where id=#{param}
+</delete>
 
 
 </mapper>

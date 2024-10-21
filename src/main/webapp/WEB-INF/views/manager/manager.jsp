@@ -17,7 +17,9 @@
 <button id="newsbtn" class="mainbutton">공지</button>
 <button id="roombtn" class="mainbutton">상영관</button>
 
+<button id="actorcut" class="mainbutton">감독/출연</button>
 <button id="steelcut" class="mainbutton">스틸컷</button>
+
 
 <button id="salesbtn" class="mainbutton">매출현황</button>
 
@@ -84,7 +86,6 @@
 		</table>
 	</div>
 </div>
-
 <div class="container" id="i">
 	<input type="hidden" id="itemid" readonly>
 		<div class="iteminfo">
@@ -127,7 +128,6 @@
 	</div>
 
 </div>
-
 <div class="container" id="a">
 	<input type="hidden" id="anid" readonly>
 		<div class="answerbox">
@@ -203,29 +203,58 @@
 </div>
 </div>
 
+
+<!--  내가 추가한 코드 -->
 <div class="container" id="c">
 	<div class="cut1">
-		<h2>영화추가</h2>
+		<h2>감독/출연추가</h2>
 			<table>
 				<tr><td>movieid</td><td><input type="text" id="movieid"></td>
-				<tr><td>배우</td><td><input type="text" id="actor"></td></tr>
+				<tr><td>감독/출연</td><td><input type="text" id="actor"></td></tr>
 				<tr><td>이미지경로</td><td><input type="text" id="actorimage" value="/actor_image/.jpg"></td></tr>
 				<tr><td colspan="2"><input type="button" id="actorbtn" value="이미지추가"></td></tr>
-				<tr><td colspan="2"><h3>배우이미지추가</h3></td></tr>
+				<tr><td colspan="2"><h3>감독/출연이미지</h3></td></tr>
 				    <tr><td>이미지</td><td><input type="file" id="actorfile" style="width:200px"></td></tr>
 				    <tr><td colspan="2"><input type="button" id="actorimgbtn" value="이미지추가">
 			</table>
 	</div>
 	<div class="cut2">
 		<table id="cutlist">
-			<caption><h3>배우이미지</h3></caption>
+			<caption><h3>감독/출연</h3></caption>
 				<thead>
-					<tr><td>영화제목</td><td>영화id</td><td>배우</td><td>이미지경로</td><td>삭제</td></tr>
+					<tr><td>영화제목</td><td>movieid</td><td>감독/출연</td><td>이미지경로</td><td>삭제</td></tr>
 				</thead>
 				<tbody></tbody>
 		</table>
 	</div>
 </div>
+
+<div class="container" id="t">
+	<div class="cut3">
+		<h2>스틸컷추가</h2>
+			<table>
+				<tr><td>movieid</td><td><input type="text" id="movieidid"></td>	
+				<tr><td>이미지경로</td><td><input type="text" id="steelcutimage" value="/cut_image/.jpg"></td></tr>
+				<tr><td colspan="2"><input type="button" id="steelbtn" value="이미지추가"></td></tr>
+				<tr><td colspan="2"><h3>스틸컷이미지</h3></td></tr>
+				    <tr><td>이미지</td><td><input type="file" id="steelcutfile" style="width:200px"></td></tr>
+				    <tr><td colspan="2"><input type="button" id="steelimgbtn" value="이미지추가">
+			</table>
+	</div>
+	<div class="cut4">
+		<table id="steelcutlist">
+			<caption><h3>스틸컷</h3></caption>
+				<thead>
+					<tr><td>영화제목</td><td>movieid</td><td>이미지경로</td><td>삭제</td></tr>
+				</thead>
+				<tbody></tbody>
+		</table>
+	</div>
+</div>
+
+<!-- -->
+
+
 
 <div class="container" id="l">
 	<div class="sales">
@@ -269,6 +298,8 @@ $(document)
 	showitem();
 	showinquiry();
 	shownews();
+	selectactor();
+	selectsteelcut();
 })
 .on('click','#sbtn',function(){
 	let rid = $('#roomnum').val().split(',');
@@ -352,11 +383,33 @@ $(document)
 	        contentType: false,
 	        processData: false,
 	        success: function(data) {
-	        	 alert("이미지 업로드가 완료되었습니다")
+	        	 alert("이미지 업로드가 완료되었습니다");
+	        	 clear();
 	        }
 	    });
 	}
 })
+.on('click','#steelimgbtn',function(){
+	if($('#steelcutfile').val()==''){
+		alert("업로드할 이미지를 선택해주세요")
+	}else{
+		let formData = new FormData();
+	    formData.append('steelcutfile', $('#steelcutfile')[0].files[0]); // Add the file
+	    clear();
+	    $.ajax({
+	        url: '/steelcutimage',
+	        type: 'POST',
+	        data: formData,
+	        contentType: false,
+	        processData: false,
+	        success: function(data) {
+	        	 alert("이미지 업로드가 완료되었습니다");
+	        	 clear();
+	        }
+	    });
+	}
+})
+
 //
 
 
@@ -692,40 +745,45 @@ $(document)
 })
 .on('click','#schebtn',function(){
 	$('#s').addClass('visible');
-	$('#m,#i,#a,#n,#r,#l,#c').removeClass('visible').addClass('container');
+	$('#m,#i,#a,#n,#r,#l,#c,#t').removeClass('visible').addClass('container');
 	clear();
 })
 .on('click','#moviebtn',function(){
 	$('#m').addClass('visible');
-	$('#s,#i,#a,#n,#r,#l,#c').removeClass('visible').addClass('container');
+	$('#s,#i,#a,#n,#r,#l,#c,#t').removeClass('visible').addClass('container');
 	clear();
 })
 
 .on('click','#itembtn',function(){
 	$('#i').addClass('visible');
-	$('#m,#s,#a,#n,#r,#l,#c').removeClass('visible').addClass('container');
+	$('#m,#s,#a,#n,#r,#l,#c,#t').removeClass('visible').addClass('container');
 	clear();
 })
 .on('click','#answerbtn',function(){
 	$('#a').addClass('visible');
-	$('#m,#i,#s,#n,#r,#l,#c').removeClass('visible').addClass('container');
+	$('#m,#i,#s,#n,#r,#l,#c,#t').removeClass('visible').addClass('container');
 	clear();
 })
 .on('click','#newsbtn',function(){
 	$('#n').addClass('visible');
-	$('#m,#i,#a,#s,#r,#l,#c').removeClass('visible').addClass('container');
+	$('#m,#i,#a,#s,#r,#l,#c,#t').removeClass('visible').addClass('container');
 	clear();
 })
 .on('click','#roombtn',function(){
 	$('#r').addClass('visible');
-	$('#m,#i,#a,#s,#n,#l,#c').removeClass('visible').addClass('container');
+	$('#m,#i,#a,#s,#n,#l,#c,#t').removeClass('visible').addClass('container');
 	clear();
 })
 
 //내가 추가한 코드.
-.on('click', '#steelcut', function() {
+.on('click', '#actorcut', function() {
     $('#c').addClass('visible'); // 스틸컷 컨테이너를 보이게 함
-    $('#m,#i,#a,#r,#n,#l,#s').removeClass('visible').addClass('container'); // 다른 컨테이너 숨김
+    $('#m,#i,#a,#r,#n,#l,#s,#t').removeClass('visible').addClass('container'); // 다른 컨테이너 숨김
+    clear(); // 필요하다면 초기화 함수 호출
+})
+.on('click', '#steelcut', function() {
+    $('#t').addClass('visible'); // 스틸컷 컨테이너를 보이게 함
+    $('#m,#i,#a,#r,#n,#l,#s,#c').removeClass('visible').addClass('container'); // 다른 컨테이너 숨김
     clear(); // 필요하다면 초기화 함수 호출
 })
 
@@ -739,25 +797,100 @@ $(document)
     console.log(actor);
     console.log(actor_image);
 
-    if(movieid==''||actor==''||actor_image==''){
-
-    alert("정보를 모두 입력해주세요.")
+    if (movieid === '' || actor === '' || actor_image === '' || isNaN(movieid)) {
+        alert("정보를 모두 입력해주세요. (movieid는 숫자여야 합니다.)");
+    } else{
+	    $.ajax({
+	        url: "/insertactor_image", 
+	        type: 'POST', 
+	        data: { 
+	            movieid: movieid,
+	            actor: actor,
+	            actor_image: actor_image
+	        },
+	        success: function(data) {
+				alert("정보가 등록되었습니다.");
+	            console.log(data);
+	            clear();
+	            selectactor();
+	            
+	           
+	        }    
+	    });
     }
-    else{
-    $.ajax({
-        url: "/insertactor_image", 
-        type: 'POST', 
-        data: { 
-            movieid: movieid,
-            actor: actor,
-            actor_image: actor_image
-        },
-        success: function(data) {
-			alert("정보가 등록되었습니다.");
-            console.log(data);
-           
-        }    
-    });
+})
+.on('click','.actordel',function(){
+
+	 let row = $(this).closest('tr'); 
+	 let id = row.find('td').eq(0).text(); 
+
+    console.log(id); // ID 값 확인
+    if (confirm("삭제하시겠습니까?")) {
+
+    	$.ajax({
+			url:"/deleteactorimage",
+    		type:'post',		
+    		data:{id:id},
+    		success:function(data){
+				alert("이미지가 삭제되었습니다.");
+				selectactor();				
+    		}
+      	
+    	})
+
+    }
+})
+.on('click', '#steelbtn', function() {
+
+    let movieid = $('#movieidid').val();
+    let steelcutimage = $('#steelcutimage').val();
+
+    console.log(movieid);
+
+    console.log(steelcutimage);
+
+	    if(movieid==''||steelcutimage==''||isNaN(movieid)){
+	
+	   		alert("정보를 모두 입력해주세요. (movieid는 숫자여야 합니다.)");
+    
+	    }else{
+	    $.ajax({
+	        url: "/insertcutimage", 
+	        type: 'POST', 
+	        data: { 
+	            movieid: movieid,
+	            steelcutimage: steelcutimage
+	        },
+	        success: function(data) {
+				alert("정보가 등록되었습니다.");
+	            console.log(data);
+	            clear();
+	            selectsteelcut();
+	            
+	           
+	        }    
+	    });
+    }
+})
+.on('click','.cutdel',function(){
+
+	 let row = $(this).closest('tr'); 
+	 let id = row.find('td').eq(0).text(); 
+
+    console.log(id); // ID 값 확인
+    if (confirm("삭제하시겠습니까?")) {
+
+    	$.ajax({
+			url:"/deletecutimage",
+    		type:'post',		
+    		data:{id:id},
+    		success:function(data){
+				alert("이미지가 삭제되었습니다.");
+				selectsteelcut();				
+    		}
+      	
+    	})
+
     }
 })
 
@@ -765,7 +898,7 @@ $(document)
 
 .on('click','#salesbtn',function(){
 	$('#l').addClass('visible');
-	$('#m,#i,#a,#s,#n,#r,#c').removeClass('visible').addClass('container');
+	$('#m,#i,#a,#s,#n,#r,#c,#t').removeClass('visible').addClass('container');
 	clear();
 	showmpay();
 	showspay();
@@ -833,9 +966,11 @@ function clear(){
 	$('#date,#stime,#etime,#mname,#runningtime,#director,#cast,#genre,#minfo,#rdate,#itemname,#itemprice,'
 		+'#disprice,#conposition,#origin,#itemimage,#period,#anid,#writer,#title,#newsid,'
 		+'#content,#answer,#createt,#answert,#newstitle,#newscontent,#itemfile,#moviefile,#roomid,'
-		+'#rname,#rlevel,#adprice,#yoprice,#itemtype,#smonth').val('');
+		+ '#rname, #rlevel, #adprice, #yoprice, #itemtype, #smonth, #movieid, #actor, #actorfile,#movieidid,#steelcutimage').val('');
 	$('#image').val('/chartImage/.jpg');
 	$('#itemimage').val('/store_Images/.jpg');
+	$('#actorimage').val('/actor_image/.jpg');
+	$('#steelcutimage').val('/cut_image/.jpg');
 	$('#nubtn,#iubtn').prop('disabled', true);
 	$('#nbtn,#ibtn').prop('disabled', false);
 }
@@ -936,6 +1071,40 @@ function totalsales(){
     let fortTotal = ftotal.toLocaleString('en-US', { style: 'decimal', minimumFractionDigits: 0 });
     $('#tpay').text(fortTotal+"  원  ");
 }
+
+//내가 추가한 코드
+function selectactor() {
+    $.post('/selectactor', {}, function(data) {
+        $('#cutlist tbody').empty();
+        for (let x of data) {
+            // movieid로 영화 제목을 가져오는 AJAX 요청
+            $.post('/selectmoviename', { movieid: x['movieid'] }, function(movieData) { // id로 변경
+                let title = movieData[0]?.Mname || '제목 없음'; // 첫 번째 객체의 Mname 사용
+                let str = '<tr><td style="display:none">' + x['id'] + '</td><td>' + title + '</td><td>' + x['movieid'] + '</td><td>' + x['actor'] + '</td><td>' + x['image_path'] + '</td><td><input type="button" class="actordel" value="삭제"></td></tr>';
+                $('#cutlist tbody').append(str);
+            }, 'json');
+        }
+    }, 'json');
+}
+function selectsteelcut() {
+	$.post('/selectsteelcut', {}, function(data) { // 괄호 수정
+		$('#steelcutlist tbody').empty();
+		for (let x of data) {
+			// 영화 제목을 가져오는 AJAX 요청
+			$.post('/selectmoviename', { movieid: x['movieid'] }, function(movieData) { // 괄호 수정
+				let title = movieData[0]?.Mname || '제목 없음'; // 첫 번째 객체의 Mname 사용
+				let str = '<tr><td style="display:none">' + x['id'] + '</td><td>' + title + '</td><td>' + x['movieid'] + '</td><td>' + x['image_path'] + '</td><td><input type="button" class="cutdel" value="삭제"></td></tr>';
+				$('#steelcutlist tbody').append(str);
+			}, 'json');
+		}
+	}, 'json');
+}
+
+
+
+
+
+
 
 
 </script>
