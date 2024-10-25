@@ -143,11 +143,10 @@ $(document).ready(function() {
 })
 .on('click', '.btnclose', function() {
     // 팝업창을 닫기
-    window.close(); // 팝업창을 닫기
-
-    // 기존 페이지를 store로 이동
-    window.opener.location.href = '/payment';
-});       
+    window.close();
+    // 부모 창에서 payment로 이동
+    window.opener.location.href = '/payment'; // 새 페이지로 이동
+});    
             
 </script>
 </html>

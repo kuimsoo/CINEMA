@@ -80,7 +80,7 @@
 		<table id="movieinfo">
 			<caption><h3>영화리스트</h3></caption>
 				<thead>
-					<tr><td>영화제목</td><td>연령</td><td>예매율</td><td>러닝타임</td><td>이미지경로</td><td>감독</td><td>출연배우</td><td>장르</td><td>개봉일</td><td>영화소개</td><td>삭제</td></tr>
+					<tr><td>영화id</td><td>영화제목</td><td>연령</td><td>예매율</td><td>러닝타임</td><td>이미지경로</td><td>감독</td><td>출연배우</td><td>장르</td><td>개봉일</td><td>영화소개</td><td>삭제</td></tr>
 				</thead>
 				<tbody></tbody>
 		</table>
@@ -212,7 +212,7 @@
 				<tr><td>movieid</td><td><input type="text" id="movieid"></td>
 				<tr><td>감독/출연</td><td><input type="text" id="actor"></td></tr>
 				<tr><td>이미지경로</td><td><input type="text" id="actorimage" value="/actor_image/.jpg"></td></tr>
-				<tr><td colspan="2"><input type="button" id="actorbtn" value="이미지추가"></td></tr>
+				<tr><td colspan="2"><input type="button" id="actorbtn" value="감독/출연추가"></td></tr>
 				<tr><td colspan="2"><h3>감독/출연이미지</h3></td></tr>
 				    <tr><td>이미지</td><td><input type="file" id="actorfile" style="width:200px"></td></tr>
 				    <tr><td colspan="2"><input type="button" id="actorimgbtn" value="이미지추가">
@@ -235,7 +235,7 @@
 			<table>
 				<tr><td>movieid</td><td><input type="text" id="movieidid"></td>	
 				<tr><td>이미지경로</td><td><input type="text" id="steelcutimage" value="/cut_image/.jpg"></td></tr>
-				<tr><td colspan="2"><input type="button" id="steelbtn" value="이미지추가"></td></tr>
+				<tr><td colspan="2"><input type="button" id="steelbtn" value="스틸컷추가"></td></tr>
 				<tr><td colspan="2"><h3>스틸컷이미지</h3></td></tr>
 				    <tr><td>이미지</td><td><input type="file" id="steelcutfile" style="width:200px"></td></tr>
 				    <tr><td colspan="2"><input type="button" id="steelimgbtn" value="이미지추가">
@@ -343,7 +343,9 @@ $(document)
         $.post('/moviein',{mname:mname,age:age,runningtime:runningtime,image:image,director:director,cast:cast,genre:genre,rdate:rdate,minfo:minfo},
     			function(data){
     				showmovie();
+    		
     				alert("영화가 추가되었습니다")
+    				mlist(); // alert 확인 후에 mlist() 호출
     		})
 	}
 })
@@ -431,9 +433,9 @@ $(document)
 		clear();
 
 		$.post('/itemin',{itemname:itemname,itemtype:itemtype,itemprice:itemprice,disprice:disprice,conposition:conposition,origin:origin,period:period,itemimage:itemimage},
-			function(data){
+			function(data){		
+				alert("상품이 추가되었습니다");
 				showitem();
-				alert("상품이 추가되었습니다")
 		})
 		
 	}
@@ -556,6 +558,7 @@ $(document)
 	if(window.confirm("정말 삭제하시겠습니까?")){
 		$.post('/moviedel',{delid:delid},function(data){
 			showmovie();
+			mlist();
 		})
 	}
 })
@@ -978,7 +981,7 @@ function showmovie(){
 	$.post('/showmovie',{},function(data){
 		$('#movieinfo tbody').empty();
 		for( let x of data){
-			let str ='<tr><td style=display:none>'+x['id']+'</td><td>'+x['mname']+'</td><td>'+x['age']+'</td><td>'+x['reservation']+'</td><td>'+x['runningtime']+'</td><td>'+
+			let str ='<tr><td>'+x['id']+'</td><td>'+x['mname']+'</td><td>'+x['age']+'</td><td>'+x['reservation']+'</td><td>'+x['runningtime']+'</td><td>'+
 						x['imagepath']+'</td><td>'+x['director']+'</td><td>'+x['cast']+'</td><td>'+x['genre']+'</td><td>'+x['releasedate']+'</td><td class=movietext>'+
 						x['movieinfo']+'</td><td><input type=button id=moviedel value=삭제></td></tr>'
 			$('#movieinfo tbody').append(str);
@@ -986,19 +989,19 @@ function showmovie(){
 		
 	},'json')
 }
-function showitem(){
-	$.post('/showitem',{},function(data){
+function showitem() {
+	$.post('/showitem', {}, function(data) {
 		$('#itemlist tbody').empty();
-		for( let x of data){
-			let str ='<tr><td style=display:none>'+x['id']+'</td><td>'+x['item_name']+'</td><td>'+x['item_type']+'</td><td>'+x['price']+'</td><td>'+x['discount_price']+'</td><td>'+x['composition']+'</td><td>'+
-						x['origin']+'</td><td>'+x['image_path']+'</td><td>'+x['period']+'</td><td><input type=button id=itemdel value=삭제></td></tr>'
+		$('#bestlist tbody select').empty(); // 기존 옵션 지우기
+		for (let x of data) {
+			let str = '<tr><td style=display:none>' + x['id'] + '</td><td>' + x['item_name'] + '</td><td>' + x['item_type'] + '</td><td>' + x['price'] + '</td><td>' + x['discount_price'] + '</td><td>' + x['composition'] + '</td><td>' +
+				x['origin'] + '</td><td>' + x['image_path'] + '</td><td>' + x['period'] + '</td><td><input type=button id=itemdel value=삭제></td></tr>';
 			$('#itemlist tbody').append(str);
-			
-			let beststr = '<option value='+x['id']+'>'+x['item_name']+', '+x['price']+', '+x['item_type']+'</option>';
+
+			let beststr = '<option value=' + x['id'] + '>' + x['item_name'] + ', ' + x['price'] + ', ' + x['item_type'] + '</option>';
 			$('#bestlist tbody select').append(beststr);
 		}
-		
-	},'json')
+	}, 'json');
 }
 function showinquiry(){
 	$.post('/showinquiry',{},function(data){

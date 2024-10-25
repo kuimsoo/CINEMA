@@ -124,9 +124,10 @@ ul {
 	padding-left:20px;
 	height:70px;
 	font-size:32px;
-	color:grey;
+	color:white;
+	font-weight: bold;
 }
-.emptya {
+.emptya { 
 	height:80px;
 }
 .emptyb {

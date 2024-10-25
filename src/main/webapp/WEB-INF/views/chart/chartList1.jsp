@@ -396,7 +396,7 @@ color:black;
                    	   type:'post',
                    	   data:{id:id,uid:uid,moviename:$('#mnameSave').val()},
                       	   success: function(data){
-                      		   console.log(data)
+                      		   console.log("data"+data);
                       		   if(data==0){
                       			   alert('영화를 보신 후 리뷰등록이 가능합니다');
                       			   return false;
